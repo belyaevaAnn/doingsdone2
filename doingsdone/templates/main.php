@@ -1,34 +1,3 @@
-<?php
-$category = array();
-foreach ($projectRows as $row) {
-    $category[] = Array ("id" => $row['id'], "name" => $row['name']);
-}
-$tableTask = array();
-foreach ($tasksRows as $row) {
-    $tableTask[] = Array(
-         "id" => $row["id"],
-        "name" => $row['name'],
-        "date" => $row['date'],
-        "cat" => $row['category'],
-        "isDone" => $row['isDone']
-    );
-}
-
-function tasksCount (array $task, $category) {
-    $count = 0;
-    foreach ($task as $key => $value) {
-        if ($value["cat"]==$category) {
-            $count++;
-        }
-    }
-    return $count;
-}
-function filterText($str) {
-    $text = htmlspecialchars($str);
-    return $text;
-}
-$nowTime = strtotime('now');
-?>
 <div class="content">
             <section class="content__side">
                 <h2 class="content__side-heading">Проекты</h2>
@@ -39,7 +8,7 @@ $nowTime = strtotime('now');
                             <li class="main-navigation__list-item <?php if($value['id']==$idCat):?>main-navigation__list-item--active <?php endif; ?>">
                             <a class="main-navigation__list-item-link" href="index.php?project=<?=$value["id"]?>"><?=$value["name"]; ?></a>
                             <span class="main-navigation__list-item-count">
-                                <?=tasksCount($tableTask, $value["id"]); ?>
+                                <?=$value['count']?>
                             </span>
                         </li>
                         <?php endforeach; ?>
@@ -74,6 +43,7 @@ $nowTime = strtotime('now');
                 </div>
 
                 <table class="tasks">
+                    <?php if($tableTask!=false): ?>
                         <?php foreach ($tableTask as $value):?>
                             <?php if (($value['cat']==$idCat)||$idCat==null):?>
                             <?php 
@@ -81,10 +51,10 @@ $nowTime = strtotime('now');
                                    //$firstDate = timestamp($nowTime) - timestamp($value['Дата выполнения']);
                                 }
                             ?>
-                            <tr <?php if($value["isDone"] && $show_complete_tasks==0):?> hidden <?php endif;?> class="tasks__item task <?php if ($firstDate / 86400 <= 1):?> task--important <?php endif; ?> ">
+                                <tr <?php if ($value['isDone']==1 && $show_complete_tasks==0):?> hidden <?php endif;?> class="<?php if ($value['isDone']==0) {$taskInput="tasks__item task";} else {$taskInput="tasks__item task task--completed";} print ($taskInput);?> <?php if ($firstDate / 86400 <= 1):?> task--important <?php endif; ?>">
                                 <td class="task__select">
                                     <label class="checkbox task__checkbox">
-                                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
+                                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1" <?php if ($value['isDone'] == 1):?> checked <?php endif;?>>
                                         <span class="checkbox__text"><?=filterText($value["name"]);?></span>
                                     </label>
                                 </td>
@@ -101,6 +71,9 @@ $nowTime = strtotime('now');
                             </tr>
                             <?php endif;?>
                         <?php endforeach;?>
+                    <?php else:?>
+                    <?="404 not found"?>
+                    <?php endif;?>
                 </table>
             </main>
         </div>

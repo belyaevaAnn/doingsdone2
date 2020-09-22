@@ -142,3 +142,20 @@ function include_template($name, array $data = []) {
 
     return $result;
 }
+
+function tasksCount (array $task, $category) {
+    $count = 0;
+    foreach ($task as $key => $value) {
+        if ($value["cat"]==$category) {
+            $count++;
+        }
+    }
+    return $count;
+}
+function filterText($str) {
+    $text = htmlspecialchars($str);
+    return $text;
+}
+
+$nowTime = strtotime('now');
+
