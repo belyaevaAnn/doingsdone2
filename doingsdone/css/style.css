@@ -521,7 +521,7 @@ a:focus {
 }
 
 .task--important .task__date {
-  color: #d82727;
+
 }
 
 .task--important .task__select .task__checkbox::before {

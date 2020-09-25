@@ -1,36 +1,40 @@
 <?php
-
-require_once ('baseConn.php');
+require_once('connect.php');
 require_once('helpers.php');
-
-require_once ('baseHelpers.php');
-$idCat = $_GET["project"];
+require_once('dataConnect.php');
+$filterTable = $_GET["project"];
 $category = getCategory($db_connect);
-$tableTask = getTasks($db_connect, $idCat, $category);
+$tableTask = getTask($db_connect, $filterTable, $category);
 
-if ($_GET["addTask"]==1)
-{
-    $page_content = include_template('addTempl.php',[
-        'category' => $category,
-    ]);
-}
-else{
-    $page_content = include_template('main.php', [
+if ($_GET['addTaskURL']==1){
+    $page_content = include_template('addTask.php', [
+
         'tasksRows' => $rows2,
-        'idCat' => $idCat,
-        'show_complete_tasks' => $show_comp,
-        'result' => $result,
+        'filterTable' => $filterTable,
+        'show_complete_tasks' => $show_complete_tasks,
         'category' => $category,
         'tableTask' => $tableTask,
+        'result' => $rows2,
+        'db_connect' => $db_connect,
+    ]);
+}
+else {
+    $page_content = include_template('main.php', [
+
+        'tasksRows' => $rows2,
+        'filterTable' => $filterTable,
+        'show_complete_tasks' => $show_complete_tasks,
+        'category' => $category,
+        'tableTask' => $tableTask,
+        'result' => $rows2,
     ]);
 }
 
 $layout_content = include_template('layout.php', [
-    'projectRows' => $rows,
     'content' => $page_content,
-    'title' => 'Дела в порядке',
+    'projectRows' => $rows,
     'category' => $category,
-    'idCat' => $idCat,
+    'filterTable' => $filterTable,
+    'title' => 'Дела в порядке',
 ]);
 print($layout_content);
-

@@ -143,19 +143,30 @@ function include_template($name, array $data = []) {
     return $result;
 }
 
-function tasksCount (array $task, $category) {
-    $count = 0;
-    foreach ($task as $key => $value) {
-        if ($value["cat"]==$category) {
-            $count++;
-        }
-    }
-    return $count;
-}
 function filterText($str) {
     $text = htmlspecialchars($str);
     return $text;
 }
 
-$nowTime = strtotime('now');
+function validateName ($value, $min, $max) {
+    if ($value) {
+        $len = strlen($value);
+        if ($len < $min || $len > $max){
+            return "Значение должно быть в пределе $min и $max символов";
+        }
+    }
+    return null;
+}
 
+function validateDate ($value) {
+    $inDate = strtotime($value);
+    $todayDate = strtotime(date('Y-m-d'));
+    if ($inDate < $todayDate) {
+        return "Дата не должна быть меньше текущей";
+    }
+    return null;
+}
+
+function getPosVal ($name) {
+    return filter_input(INPUT_POST, $name);
+}

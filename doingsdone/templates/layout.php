@@ -18,7 +18,7 @@
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus open-modal" href="index.php?addTask=1">Добавить задачу</a>
+                <a class="main-header__side-item button button--plus open-modal" href="index.php?addTaskURL=1&categ=<?=$filterTable?>">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
@@ -30,29 +30,27 @@
             </div>
         </header>
         <div class="content">
-        <section class="content__side">
-            <h2 class="content__side-heading">Проекты</h2>
+            <section class="content__side">
+                <h2 class="content__side-heading">Проекты</h2>
 
-            <nav class="main-navigation">
-                <ul class="main-navigation__list">
-                    <?php foreach ($category as $value):?>
-                        <li class="main-navigation__list-item <?php if($value['id']==$idCat):?>main-navigation__list-item--active <?php endif; ?>">
-                            <a class="main-navigation__list-item-link" href="index.php?project=<?=$value["id"]?>"><?=$value["name"]; ?></a>
-                            <span class="main-navigation__list-item-count">
-                                <?=$value['count']?>
+                <nav class="main-navigation">
+                    <ul class="main-navigation__list">
+                        <?php foreach ($category as $value):?>
+                            <li class="main-navigation__list-item <?php if ($value['id']==$filterTable):?>main-navigation__list-item--active<?php endif;?>">
+                                <a class="main-navigation__list-item-link" href="index.php?project=<?=$value['id']?>"><?=$value['category']; ?></a>
+                                <span class="main-navigation__list-item-count">
+                                <?=$value["count"]?>
                             </span>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            </nav>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </nav>
 
-            <a class="button button--transparent button--plus content__side-button"
-               href="pages/form-project.html" target="project_add">Добавить проект</a>
-        </section>
-
-        <?= $content; ?>
+                <a class="button button--transparent button--plus content__side-button"
+                   href="pages/form-project.html" target="project_add">Добавить проект</a>
+            </section>
+            <?= $content; ?>
         </div>
-        
     </div>
 </div>
 
@@ -64,7 +62,7 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
-        <a class="main-footer__button button button--plus" href="pages/form-task.html">Добавить задачу</a>
+        <a class="main-footer__button button button--plus" href="index.php?addTaskURL=1&categ=<?=$filterTable?>">Добавить задачу</a>
 
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
